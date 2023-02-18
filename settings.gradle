@@ -1,0 +1,21 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+
+    }
+}
+rootProject.name = "ExoPlayerSample"
+include ':app'
+include ':video_player'
+include ':ReactNativeExoPlayer'
+include ':mylibrary'
