@@ -1,4 +1,5 @@
 package com.example.reactnativeexoplayer;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,5 +24,10 @@ public class MeraBowReactNativeHelper extends ReactContextBaseJavaModule {
     @ReactMethod
     public void sayHello() {
         Toast.makeText(getReactApplicationContext(), "Hello from MyModule!", Toast.LENGTH_SHORT).show();
+    }
+
+    @ReactMethod
+    public void testForUi(String videoUrl) {
+        Log.d("FATAL", "testForUi: " + videoUrl);
     }
 }
