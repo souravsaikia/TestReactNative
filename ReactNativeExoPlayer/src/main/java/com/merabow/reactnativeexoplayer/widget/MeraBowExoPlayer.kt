@@ -29,7 +29,7 @@ class MeraBowExoPlayer(val context: Context, var videoControl: MeraVideoControlV
     var videoStateListener: ChatbotVideoStateListener? = null
     var videoDimensionsListener: VideoDimensionsListener? = null
 
-    private val exoPlayer: SimpleExoPlayer = SimpleExoPlayer.Builder(context)
+    val myExoPlayer: SimpleExoPlayer = SimpleExoPlayer.Builder(context)
         .setTrackSelector(DefaultTrackSelector(context))
         .setLoadControl(loadControl)
         .build()
@@ -38,12 +38,12 @@ class MeraBowExoPlayer(val context: Context, var videoControl: MeraVideoControlV
 
     init {
 
-        exoPlayer.volume = UNMUTE_VOLUME
-        exoPlayer.videoScalingMode = C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING
-        videoControl?.player = exoPlayer
+        myExoPlayer.volume = UNMUTE_VOLUME
+        myExoPlayer.videoScalingMode = C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING
+        videoControl?.player = myExoPlayer
         videoControl?.listener = this
 
-        exoPlayer.addListener(object : Player.Listener {
+        myExoPlayer.addListener(object : Player.Listener {
             override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
                 val isPlaying = playWhenReady && playbackState == Player.STATE_READY
                 val isReadyToPlay = !playWhenReady && playbackState == Player.STATE_READY
@@ -68,10 +68,10 @@ class MeraBowExoPlayer(val context: Context, var videoControl: MeraVideoControlV
                         videoStateListener?.onInitialStateLoading()
                     }
                 }
-                if (!exoPlayer.playWhenReady && exoPlayer.currentPosition != VIDEO_AT_FIRST_POSITION) {
+                if (!myExoPlayer.playWhenReady && myExoPlayer.currentPosition != VIDEO_AT_FIRST_POSITION) {
                     videoStateListener?.onVideoStateChange(
-                        exoPlayer.currentPosition,
-                        exoPlayer.duration
+                        myExoPlayer.currentPosition,
+                        myExoPlayer.duration
                     )
                 }
             }
@@ -87,7 +87,7 @@ class MeraBowExoPlayer(val context: Context, var videoControl: MeraVideoControlV
             }
         })
 
-        exoPlayer.addAnalyticsListener(object : AnalyticsListener {
+        myExoPlayer.addAnalyticsListener(object : AnalyticsListener {
             override fun onVideoSizeChanged(
                 eventTime: AnalyticsListener.EventTime,
                 width: Int,
@@ -113,27 +113,27 @@ class MeraBowExoPlayer(val context: Context, var videoControl: MeraVideoControlV
             return
         }
         val mediaSource = getMediaSourceBySource(context, Uri.parse(videoUrl))
-        exoPlayer.playWhenReady = true
-        exoPlayer.prepare(mediaSource, true, false)
+        myExoPlayer.playWhenReady = true
+        myExoPlayer.prepare(mediaSource, true, false)
     }
 
     fun resume() {
-        exoPlayer.playWhenReady = true
+        myExoPlayer.playWhenReady = true
     }
 
     fun stop() {
-        exoPlayer.playWhenReady = false
+        myExoPlayer.playWhenReady = false
     }
 
     fun pause() {
-        exoPlayer.playWhenReady = false
+        myExoPlayer.playWhenReady = false
     }
 
     fun destroy() {
-        exoPlayer.release()
+        myExoPlayer.release()
     }
 
-    fun getExoPlayer(): SimpleExoPlayer = exoPlayer
+    fun getExoPlayer(): SimpleExoPlayer = myExoPlayer
 
     fun getMediaSourceBySource(context: Context, uri: Uri): MediaSource {
         val dataSourceFactory =
@@ -164,7 +164,7 @@ class MeraBowExoPlayer(val context: Context, var videoControl: MeraVideoControlV
     override fun onCenterPlayButtonClicked() {
         resume()
         if (isEnded) {
-            exoPlayer.seekTo(VIDEO_AT_FIRST_POSITION)
+            myExoPlayer.seekTo(VIDEO_AT_FIRST_POSITION)
             isEnded = false
         }
     }
@@ -182,7 +182,7 @@ class MeraBowExoPlayer(val context: Context, var videoControl: MeraVideoControlV
     }
 
     override fun onScrubMove(position: Long) {
-        exoPlayer.seekTo(position)
+        myExoPlayer.seekTo(position)
     }
 
     interface ChatbotVideoStateListener {

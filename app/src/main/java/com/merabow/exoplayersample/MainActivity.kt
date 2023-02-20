@@ -13,11 +13,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val button = findViewById<MaterialButton>(R.id.button_test)
 //        button.setOnClickListener {
-            startVideoStream(
-                "",
-                "https://admin.merabow.com/api/play-video/63e2116cdcaf80ad1e221699/0"
-            )
+
     //    }
+
+//        startVideoStream(
+//            "",
+//            "https://admin.merabow.com/api/play-video/63e2116cdcaf80ad1e221699/0"
+//        )
         }
 
     fun startVideoStream(thumbnailUrl: String, videoUrl: String) {
