@@ -127,7 +127,7 @@ class MeraBowExoPlayerActivity : AppCompatActivity()
 
     override fun setHeight(height: Int) {
         videoHeight = height
-        setLayoutParams()
+  //      setLayoutParams()
    //     parent?.requestLayout()
     }
 
