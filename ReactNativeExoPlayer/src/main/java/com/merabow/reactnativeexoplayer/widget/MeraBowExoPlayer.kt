@@ -2,6 +2,7 @@ package com.merabow.reactnativeexoplayer.widget
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.DefaultLoadControl
 import com.google.android.exoplayer2.LoadControl
@@ -26,6 +27,7 @@ class MeraBowExoPlayer(val context: Context, var videoControl: MeraVideoControlV
         .createDefaultLoadControl()
 
     var videoStateListener: ChatbotVideoStateListener? = null
+    var videoDimensionsListener: VideoDimensionsListener? = null
 
     private val exoPlayer: SimpleExoPlayer = SimpleExoPlayer.Builder(context)
         .setTrackSelector(DefaultTrackSelector(context))
@@ -50,15 +52,19 @@ class MeraBowExoPlayer(val context: Context, var videoControl: MeraVideoControlV
 
                 when {
                     isPlaying -> {
+                        Log.d("FATAL", "onPlayerStateChanged: isPlaying")
                         videoStateListener?.onVideoReadyToPlay()
                     }
                     playbackState == Player.STATE_ENDED -> {
+                        Log.d("FATAL", "onPlayerStateChanged: ended")
                         isEnded = true
                     }
                     isReadyToPlay -> {
+                        Log.d("FATAL", "onPlayerStateChanged: isReadyToPlay")
                         videoStateListener?.onVideoReadyToPlay()
                     }
                     isInitialLoad -> {
+                        Log.d("FATAL", "onPlayerStateChanged: isInitialLoad")
                         videoStateListener?.onInitialStateLoading()
                     }
                 }
@@ -96,6 +102,8 @@ class MeraBowExoPlayer(val context: Context, var videoControl: MeraVideoControlV
                     unappliedRotationDegrees,
                     pixelWidthHeightRatio
                 )
+                videoDimensionsListener?.setWidth(width)
+                videoDimensionsListener?.setHeight(height)
             }
         })
     }
@@ -182,5 +190,11 @@ class MeraBowExoPlayer(val context: Context, var videoControl: MeraVideoControlV
         fun onVideoReadyToPlay()
         fun onVideoStateChange(stopDuration: Long, videoDuration: Long)
         fun onVideoPlayerError(e: PlaybackException)
+    }
+
+
+    interface VideoDimensionsListener {
+        fun setWidth(width : Int)
+        fun setHeight(height : Int)
     }
 }
