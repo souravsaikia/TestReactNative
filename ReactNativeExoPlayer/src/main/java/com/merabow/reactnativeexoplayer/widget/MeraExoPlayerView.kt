@@ -20,31 +20,33 @@ class MeraExoPlayerView  @JvmOverloads constructor(
 ) : TextureView(context, attrs, defStyleAttr), LifecycleEventListener {
 
     private var videoPlayerView: PlayerView? = null
-    private var progressLoader: CircularProgressIndicator? = null
     private var merabowExoPlayer: MeraBowExoPlayer? = null
     private var videoControlView: MeraVideoControlView? = null
 
     init {
         // Create an instance of ExoPlayer
         merabowExoPlayer = MeraBowExoPlayer(context, videoControlView)
-        videoPlayerView?.player = merabowExoPlayer?.getExoPlayer()
-        merabowExoPlayer?.start("https://admin.merabow.com/api/play-video/63e2116cdcaf80ad1e221699/0")
-     //   videoPlayerView?.player?.setVideoTextureView(this)
-        merabowExoPlayer?.myExoPlayer?.setVideoTextureView(this)
+
     //   merabowExoPlayer?.videoStateListener = this
       //  initListenerForVideoPlayer()
     }
 
-    override fun onHostResume() {
+    fun setVideoUrl(videoUrl: String, thumbnailUrl: String) {
+        videoPlayerView?.player = merabowExoPlayer?.getExoPlayer()
+        merabowExoPlayer?.start(videoUrl)
+        merabowExoPlayer?.myExoPlayer?.setVideoTextureView(this)
+    }
 
+    override fun onHostResume() {
+        merabowExoPlayer?.resume()
     }
 
     override fun onHostPause() {
-
+        merabowExoPlayer?.pause()
     }
 
     override fun onHostDestroy() {
-
+        merabowExoPlayer?.destroy()
     }
 
 

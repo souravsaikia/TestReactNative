@@ -38,13 +38,16 @@ class MeraBowReactNativeHelper(reactContext: ReactApplicationContext?) :
     private var playerView: MeraExoPlayerView? = null
 
     @ReactMethod
-    fun createPlayer() {
+    fun createPlayer(videoUrl: String) {
         // Create a new instance of VideoPlayerView and add it to the React view hierarchy
         playerView = MeraExoPlayerView(reactApplicationContext)
         (reactApplicationContext as ReactContext).addLifecycleEventListener(playerView!!)
         (reactApplicationContext as ReactContext).currentActivity?.let {
             (it as ViewGroup).addView(playerView)
         }
+        val videoUrl2 = "https://admin.merabow.com/api/play-video/63e2116cdcaf80ad1e221699/0"
+        playerView?.setVideoUrl(videoUrl2,"")
+
     }
 
 }
